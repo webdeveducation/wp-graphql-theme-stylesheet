@@ -4,7 +4,7 @@
  * Description: Adds the current theme's global stylesheet to be returned as a string from WPGraphQL
  * Author: WebDevEducation
  * Author URI: https://webdeveducation.com
- * Plugin URI: https://webdeveducation.com
+ * Plugin URI: https://github.com/webdeveducation/wp-graphql-theme-stylesheet
  * Version: 0.1.0
  */
 
