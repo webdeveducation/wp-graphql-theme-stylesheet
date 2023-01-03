@@ -5,18 +5,38 @@
  * Author: WebDevEducation
  * Author URI: https://webdeveducation.com
  * Plugin URI: https://github.com/webdeveducation/wp-graphql-theme-stylesheet
- * Version: 0.1.0
+ * Version: 0.1.1
  */
 
-add_action( 'graphql_register_types', 'extend_wpgraphql_schema' );
+ if (!defined('ABSPATH')) {
+	die('Silence is golden.');
+}
 
-function extend_wpgraphql_schema() {
-  register_graphql_field( 'RootQuery', 'themeStylesheet', [
-    'type' => 'String',
-    'description' => 'Return the current theme\'s global stylesheet as a string',
-    'resolve' => function() {
-       return wp_get_global_stylesheet();
-    }
-  ] );
-};
+if (!class_exists('WPGraphQLThemeStylesheet')) {
+	final class WPGraphQLThemeStylesheet {
+		private static $instance;
+		public static function instance() {
+			if (!isset(self::$instance)) {
+				self::$instance = new WPGraphQLThemeStylesheet();
+			}
+
+			return self::$instance;
+		}
+
+		public function init() {
+      add_action( 'graphql_register_types', function(){
+        register_graphql_field( 'RootQuery', 'themeStylesheet', [
+          'type' => 'String',
+          'description' => 'Return the current theme\'s global stylesheet as a string',
+          'resolve' => function() {
+            return wp_get_global_stylesheet();
+          }
+        ]);
+      });
+		}
+	}
+}
+
+WPGraphQLThemeStylesheet::instance()->init();
+
 ?>
